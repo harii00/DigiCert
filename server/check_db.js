@@ -12,6 +12,7 @@ const checkDB = async () => {
     await mongoose.connect(uri);
 
     const students = await User.find({ role: 'student' }).select('name roll_number email');
+    const admins = await User.find({ role: 'admin' }).select('name email');
     const courses = await CompletedCourse.find();
 
     const output = {
@@ -19,6 +20,10 @@ const checkDB = async () => {
         name: s.name, 
         roll: s.roll_number, 
         email: s.email 
+      })),
+      admins: admins.map(a => ({
+        name: a.name,
+        email: a.email
       })),
       courses: courses.map(c => ({ 
         roll: c.roll_number, 

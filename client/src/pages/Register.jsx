@@ -19,7 +19,7 @@ const Register = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/register`, formData);
+            await axios.post('/api/auth/register', formData);
             toast.success('Admin account created. Please log in.');
             navigate('/login');
         } catch (error) {
