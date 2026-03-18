@@ -3,8 +3,8 @@
   "outputDirectory": "client/dist",
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "https://digi-cert-backend.onrender.com/api/$1"
+      "source": "/api/:path*",
+      "destination": "https://digi-cert-backend.onrender.com/api/:path*"
     },
     {
       "source": "/(.*)",
