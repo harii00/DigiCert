@@ -10,12 +10,27 @@ import certificateRoutes from './routes/certificateRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import courseRoutes from './routes/courseRoutes.js';
 import requestRoutes from './routes/requestRoutes.js';
+import fs from 'fs';
 
 dotenv.config();
-connectDB();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Ensure required directories exist
+const requiredDirs = [
+  path.join(__dirname, 'uploads'),
+  path.join(__dirname, 'public/certificates')
+];
+
+requiredDirs.forEach(dir => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+    console.log(`Created missing directory: ${dir}`);
+  }
+});
+
+connectDB();
 
 const app = express();
 
