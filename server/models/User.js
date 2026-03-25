@@ -32,10 +32,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  roll_number: {
+    roll_number: {
     type: String,
     unique: true,
     sparse: true, // Only for students
+  },
+  isPasswordChanged: {
+    type: Boolean,
+    default: false,
   },
 }, {
   timestamps: true,

@@ -42,6 +42,7 @@ export const getProfile = async (req, res) => {
         roll_number: user.roll_number || '',
         profilePicture: user.profilePicture || '',
         signature: user.signature || '',
+        isPasswordChanged: user.isPasswordChanged,
       });
     } else {
       res.status(404).json({ message: 'User not found' });
@@ -69,6 +70,7 @@ export const updateProfile = async (req, res) => {
 
       if (req.body.password) {
         user.password = req.body.password;
+        user.isPasswordChanged = true;
       }
 
       const updatedUser = await user.save();
@@ -80,6 +82,9 @@ export const updateProfile = async (req, res) => {
         roll_number: updatedUser.roll_number || '',
         profilePicture: updatedUser.profilePicture,
         signature: updatedUser.signature,
+        isPasswordChanged: updatedUser.isPasswordChanged,
+        role: updatedUser.role,
+        email: updatedUser.email,
       });
     } else {
       res.status(404).json({ message: 'User not found' });

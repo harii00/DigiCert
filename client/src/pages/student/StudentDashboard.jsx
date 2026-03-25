@@ -13,13 +13,14 @@ import {
   Loader2,
   Clock,
   CheckCircle2,
-  XCircle
+  XCircle,
+  Shield
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Badge } from '../../components/UI';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { certificateAPI, courseAPI, requestAPI } from '../../services/api';
+import { certificateAPI, courseAPI, requestAPI, userAPI } from '../../services/api';
 
 const StudentDashboard = () => {
   const [certificates, setCertificates] = useState([]);
@@ -29,8 +30,40 @@ const StudentDashboard = () => {
   const [requests, setRequests] = useState([]);
   const [requesting, setRequesting] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const { user, logout } = useAuth();
+  const { user, logout, setUser } = useAuth();
   const navigate = useNavigate();
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [updatingPassword, setUpdatingPassword] = useState(false);
+
+  useEffect(() => {
+    if (user && user.isPasswordChanged === false) {
+      setShowPasswordModal(true);
+    }
+  }, [user]);
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    if (!newPassword) return toast.error('Please enter a new password');
+    if (newPassword.length < 6) return toast.error('Password must be at least 6 characters');
+    
+    setUpdatingPassword(true);
+    try {
+      const data = await userAPI.updateProfile({ password: newPassword });
+      setUser({ ...user, ...data });
+      setShowPasswordModal(false);
+      toast.success('Password updated successfully');
+      
+      // Force reload to completely refresh the state and load the dashboard freshly
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to update password');
+    } finally {
+      setUpdatingPassword(false);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -467,6 +500,66 @@ const StudentDashboard = () => {
                       </div>
                     );
                   })()}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Forced Password Change Modal */}
+      <AnimatePresence>
+        {showPasswordModal && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              className="relative w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden"
+            >
+              <div className="p-10 text-center">
+                <div className="w-20 h-20 bg-indigo-50 rounded-3xl flex items-center justify-center mx-auto mb-8 text-indigo-600">
+                  <Shield className="w-10 h-10" />
+                </div>
+                <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-4 uppercase italic">Secure Your Account</h2>
+                <p className="text-slate-500 font-medium mb-10 leading-relaxed">
+                  Welcome to DigiCert! To protect your identity and credentials, please change your default password before proceeding.
+                </p>
+
+                <form onSubmit={handleChangePassword} className="space-y-6">
+                  <div className="relative">
+                    <input
+                      type="password"
+                      placeholder="New Secure Password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-5 text-slate-900 font-bold outline-none focus:ring-4 ring-indigo-500/10 focus:border-indigo-500 transition-all"
+                      autoFocus
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={updatingPassword}
+                    className="w-full py-5 bg-indigo-600 hover:bg-slate-900 text-white rounded-2xl text-[12px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-indigo-200 flex items-center justify-center space-x-3 disabled:opacity-50"
+                  >
+                    {updatingPassword ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        <CheckCircle2 className="w-5 h-5" />
+                        <span>Update Identity Key</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+
+                <div className="mt-8 flex justify-center items-center space-x-2 text-[10px] font-black uppercase tracking-widest text-slate-300">
+                    <TrendingUp className="w-3 h-3" />
+                    <span>Security Protocol Active</span>
                 </div>
               </div>
             </motion.div>
