@@ -15,6 +15,7 @@
     "connect-mongo": "^5.1.0",
     "cors": "^2.8.6",
     "csv-parser": "^3.2.0",
+    "digicert_project": "file:..",
     "dotenv": "^16.6.1",
     "express": "^4.22.1",
     "express-session": "^1.19.0",
