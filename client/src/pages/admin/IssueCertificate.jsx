@@ -36,7 +36,7 @@ const IssueCertificate = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/certificates`, formData);
+      await axios.post(`${process.env.VITE_API_URL || 'http://localhost:5000/api'}/certificates`, formData);
       toast.success('Certificate issued successfully.');
       navigate('/admin/dashboard');
     } catch (error) {
@@ -52,7 +52,7 @@ const IssueCertificate = () => {
 
     if (roll.length >= 10) {
       try {
-        const { data } = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/users/students/roll/${roll}`);
+        const { data } = await axios.get(`${process.env.VITE_API_URL || 'http://localhost:5000/api'}/users/students/roll/${roll}`);
         if (data && data.name && data.email) {
           setFormData(prev => ({
             ...prev,
