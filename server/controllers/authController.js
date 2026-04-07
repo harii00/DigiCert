@@ -7,10 +7,12 @@ import generateToken from '../config/generateToken.js';
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("email: ", email, "password: ", password);
 
     const user = await User.findOne({ email });
+    console.log("user: ", user)
 
-    if (user && (await user.matchPassword(password))) {
+    if (user && (user.password.trim() === password.trim())) {
       res.json({
         _id: user._id,
         name: user.name,

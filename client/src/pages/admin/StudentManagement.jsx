@@ -75,7 +75,7 @@ const StudentManagement = () => {
 
   const fetchStudents = async () => {
     try {
-      const { data } = await axios.get(`${process.env.VITE_API_URL || '/api'}/users/students`);
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL || '/api'}/users/students`);
       setStudents(data);
     } catch (error) {
       toast.error('Failed to load students');
@@ -105,7 +105,7 @@ const StudentManagement = () => {
 
   const openDetailModal = async (student) => {
     try {
-      const { data } = await axios.get(`${process.env.VITE_API_URL || '/api'}/users/students/${student._id}`);
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL || '/api'}/users/students/${student._id}`);
       setSelectedStudent(data);
       setShowDetailModal(true);
     } catch (error) {
@@ -157,10 +157,10 @@ const StudentManagement = () => {
       if (editMode && selectedStudent) {
         const updateData = { ...formData };
         if (!updateData.password) delete updateData.password;
-        await axios.put(`${process.env.VITE_API_URL || '/api'}/users/students/${selectedStudent._id}`, updateData);
+        await axios.put(`${import.meta.env.VITE_API_URL || '/api'}/users/students/${selectedStudent._id}`, updateData);
         toast.success('Student updated successfully');
       } else {
-        await axios.post(`${process.env.VITE_API_URL || '/api'}/users/students`, formData);
+        await axios.post(`${import.meta.env.VITE_API_URL || '/api'}/users/students`, formData);
         toast.success('Student created successfully');
       }
       setShowModal(false);
@@ -175,7 +175,7 @@ const StudentManagement = () => {
   const handleDelete = async (studentId) => {
     if (!window.confirm('Are you sure you want to delete this student? This action cannot be undone.')) return;
     try {
-      await axios.delete(`${process.env.VITE_API_URL || '/api'}/users/students/${studentId}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL || '/api'}/users/students/${studentId}`);
       toast.success('Student removed');
       fetchStudents();
     } catch (error) {
@@ -709,7 +709,7 @@ const StudentManagement = () => {
                         ) : (
                           <>
                             <Upload className="w-4 h-4 mr-2" />
-                            <span className="text-sm font-bold uppercase tracking-widest">Process File</span>
+                            <span className="text-sm font-bold uppercase tracking-widest">import.meta File</span>
                           </>
                         )}
                       </button>

@@ -22,7 +22,7 @@ const CertificateDirectory = () => {
     useEffect(() => {
         const fetchCertificates = async () => {
             try {
-                const { data } = await axios.get(`${process.env.VITE_API_URL || '/api'}/certificates`);
+                const { data } = await axios.get(`${import.meta.env.VITE_API_URL || '/api'}/certificates`);
                 setCertificates(data);
             } catch (error) {
                 console.error('Error fetching certificates:', error);

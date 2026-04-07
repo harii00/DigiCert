@@ -33,7 +33,7 @@ const AdminCertificateRequests = () => {
 
   const fetchRequests = async () => {
     try {
-      const { data } = await axios.get(`${process.env.VITE_API_URL || '/api'}/requests`);
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL || '/api'}/requests`);
       setRequests(data);
     } catch (error) {
       toast.error('Failed to fetch requests');
@@ -44,7 +44,7 @@ const AdminCertificateRequests = () => {
 
   const handleProcess = async (id, status, remarks = '') => {
     try {
-      const { data } = await axios.patch(`${process.env.VITE_API_URL || '/api'}/requests/${id}`, { status, remarks });
+      const { data } = await axios.patch(`${import.meta.env.VITE_API_URL || '/api'}/requests/${id}`, { status, remarks });
       toast.success(data.message);
       fetchRequests();
       setShowRejectModal(false);
@@ -77,7 +77,7 @@ const AdminCertificateRequests = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
           <div>
             <h1 className="text-4xl font-black tracking-tight text-slate-900 uppercase mb-2">Certificate Requests</h1>
-            <p className="text-slate-500 font-semibold italic">Process and approve student qualification claims</p>
+            <p className="text-slate-500 font-semibold italic">import.meta and approve student qualification claims</p>
           </div>
 
           <div className="flex bg-white p-1.5 rounded-2xl border border-slate-100 shadow-sm h-fit">

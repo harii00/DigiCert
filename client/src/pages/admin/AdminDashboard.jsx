@@ -34,7 +34,7 @@ const AdminDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       const [certRes, reqRes] = await Promise.all([
-        axios.get(`${process.env.VITE_API_URL || '/api'}/certificates`),
+        axios.get(`${import.meta.env.VITE_API_URL || '/api'}/certificates`),
         requestAPI.getAll()
       ]);
       setRecentCertificates(certRes.data.slice(0, 8));
