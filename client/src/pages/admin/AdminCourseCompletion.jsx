@@ -27,7 +27,7 @@ const AdminCourseCompletion = () => {
 
     setUploading(true);
     try {
-      const { data } = await axios.post(`${process.env.VITE_API_URL || 'http://localhost:5000/api'}/courses/upload-csv`, formData, {
+      const { data } = await axios.post(`${process.env.VITE_API_URL || '/api'}/courses/upload-csv`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

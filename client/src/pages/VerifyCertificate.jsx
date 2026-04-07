@@ -42,7 +42,7 @@ const VerifyCertificate = () => {
     setSearched(true);
 
     try {
-      const { data } = await axios.get(`${process.env.VITE_API_URL || 'http://localhost:5000/api'}/certificates/verify/${trimmed}`);
+      const { data } = await axios.get(`${process.env.VITE_API_URL || '/api'}/certificates/verify/${trimmed}`);
       setCertificate(data);
     } catch (err) {
       setError('No certificate found for this Certificate ID. Please check the ID and try again.');
@@ -68,7 +68,7 @@ const VerifyCertificate = () => {
   const handleDownload = () => {
     if (!certificate) return;
     const link = document.createElement('a');
-    link.href = `${process.env.VITE_API_URL || 'http://localhost:5000/api'}/certificates/public/${certificate.certificateId}/download`;
+    link.href = `${process.env.VITE_API_URL || '/api'}/certificates/public/${certificate.certificateId}/download`;
     link.download = `${certificate.certificateId}.pdf`;
     document.body.appendChild(link);
     link.click();

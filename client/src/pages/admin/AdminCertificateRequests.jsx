@@ -33,7 +33,7 @@ const AdminCertificateRequests = () => {
 
   const fetchRequests = async () => {
     try {
-      const { data } = await axios.get(`${process.env.VITE_API_URL || 'http://localhost:5000/api'}/requests`);
+      const { data } = await axios.get(`${process.env.VITE_API_URL || '/api'}/requests`);
       setRequests(data);
     } catch (error) {
       toast.error('Failed to fetch requests');
@@ -44,7 +44,7 @@ const AdminCertificateRequests = () => {
 
   const handleProcess = async (id, status, remarks = '') => {
     try {
-      const { data } = await axios.patch(`${process.env.VITE_API_URL || 'http://localhost:5000/api'}/requests/${id}`, { status, remarks });
+      const { data } = await axios.patch(`${process.env.VITE_API_URL || '/api'}/requests/${id}`, { status, remarks });
       toast.success(data.message);
       fetchRequests();
       setShowRejectModal(false);

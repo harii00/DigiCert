@@ -71,7 +71,7 @@ const CertificateDetail = () => {
                         <div className="bg-slate-100 rounded-[2rem] overflow-hidden relative" style={{ aspectRatio: '1.414 / 1', width: '100%' }}>
                             {certificate ? (
                                 <iframe
-                                    src={`${process.env.VITE_API_URL || 'http://localhost:5000/api'}/certificates/${certificate._id}/download?inline=true&token=${localStorage.getItem('token')}&t=${Date.now()}`}
+                                    src={`${process.env.VITE_API_URL || '/api'}/certificates/${certificate._id}/download?inline=true&token=${localStorage.getItem('token')}&t=${Date.now()}`}
                                     className="w-full h-full border-0 absolute top-0 left-0"
                                     title="Certificate PDF"
                                 />

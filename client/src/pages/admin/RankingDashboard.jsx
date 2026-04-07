@@ -26,7 +26,7 @@ const RankingDashboard = () => {
 
   const fetchRanking = async () => {
     try {
-      const { data } = await axios.get(`${process.env.VITE_API_URL || 'http://localhost:5000/api'}/certificates/ranking`);
+      const { data } = await axios.get(`${process.env.VITE_API_URL || '/api'}/certificates/ranking`);
       setRanking(data);
     } catch (error) {
       console.error('Error fetching ranking:', error);
